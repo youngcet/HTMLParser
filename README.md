@@ -142,28 +142,28 @@ $data => array (
 A list can be populated as below:
 ```
 <ul>
-        <%=list dataset="products"
-        <li>{products.name} {products.desc}</li>
-        =%>
-    </ul>
+    <%=list dataset="products"
+    <li>{products.name} {products.desc}</li>
+    =%>
+</ul>
  ```
  
 dataset="products" specifies the array key from the $data. Any values enclosed in curly brackets are values to substitute from the given array (products in this case). If there are no values enclosed in curly brackets, whichever text will be populated on the list. This applies to anything besides HTML lists, for example, this can also be used to populate an HTML table rows:
 ```
 <table>
-        <tr>
-            <th>Client</th>
-            <th>Name</th>
-            <th>Balance</th>
-        </tr>
-        <%=list dataset="clients"
-             <tr class="class" id="1234">
-                 <td align="left">{client.id}</td>
-                 <td>{client.name}</td>
-                 <td>R{client.balance}</td>
-             </tr>
-        =%>
-    </table>
+    <tr>
+        <th>Client</th>
+        <th>Name</th>
+        <th>Balance</th>
+    </tr>
+    <%=list dataset="clients"
+         <tr class="class" id="1234">
+             <td align="left">{client.id}</td>
+             <td>{client.name}</td>
+             <td>R{client.balance}</td>
+         </tr>
+    =%>
+</table>
 ```
 
 # Adding PHP Code
@@ -171,28 +171,28 @@ PHP code can be added as below (All values in curcly brackets will be substitute
 
 ```
 <!--php-code
-        return ('{clients.total}' > 0) ? '<h2>List of Clients {clients.total}</h2>' : '<h2>No Records!</h2>';
-    endcode-->
+    return ('{clients.total}' > 0) ? '<h2>List of Clients {clients.total}</h2>' : '<h2>No Records!</h2>';
+endcode-->
 ```
 
 Additionally, you can also add PHP code inside a <%=list dataset="yourarray" =%> to add logic.
 ```
 <table>
-        <tr>
-            <th>Client</th>
-            <th>Name</th>
-            <th>Balance</th>
-        </tr>
-        <%=list dataset="clients"
-             <!--php-code
-            return ({client.balance} > 0) 
-                ? '<tr class="class">
-                    <td align="left">{client.id}</td>
-                    <td>{client.name}</td>
-                    <td>R{client.balance}</td>
-                    </tr>' 
-                : '';
-            endcode-->
-        =%>
-    </table>
+    <tr>
+        <th>Client</th>
+        <th>Name</th>
+        <th>Balance</th>
+    </tr>
+    <%=list dataset="clients"
+         <!--php-code
+        return ({client.balance} > 0) 
+            ? '<tr class="class">
+                <td align="left">{client.id}</td>
+                <td>{client.name}</td>
+                <td>R{client.balance}</td>
+                </tr>' 
+            : '';
+        endcode-->
+    =%>
+</table>
  ```
