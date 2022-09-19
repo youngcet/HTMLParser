@@ -1,6 +1,6 @@
 # HTMLParser
 
-Parsers HTML string with PHP Code
+This package parsers substituted data on an HTML string with PHP Code
 
 # Usage
 ```
