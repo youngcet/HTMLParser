@@ -3,6 +3,7 @@
 Parsers HTML string with PHP Code
 
 # Usage
+```
 require ('HTMLParser/HTMLParser.php');
 
 $htmlparser = new App\Custom\HTMLParser ($htmlstring, $data);
@@ -15,10 +16,11 @@ if (App\Custom\Error::IsAnError ($htmlstring))
     // $htmlstring->GetError(); // gets error message
     // $htmlstring->GetCode(); // gets error code
 }
-
+```
 
 # Parameters Explanined
 $htmlstring the actual html string
+```
 <!DOCTYPE html>
 <html>
 
@@ -98,9 +100,11 @@ $htmlstring the actual html string
 </body>
 
 </html>
+```
 
 $data is an array of data to substitute on the html string. All keys that need to be substituted must be enclosed in curly brackets {}. See below:
 
+```
 $data => array (
                 'clients' => array (
                         array ('{client.name}' => 'Yung Cet 1', '{client.id}' => '12341', '{client.balance}' => '10'),
@@ -132,17 +136,20 @@ $data => array (
                     ),
                 array ('{products.total}' => 4, '{clients.total}' => 7),
             );
-            
+```
+
 # Populating a list
 A list can be populated as below:
+```
 <ul>
         <%=list dataset="products"
         <li>{products.name} {products.desc}</li>
         =%>
     </ul>
+ ```
  
 dataset="products" specifies the array key from the $data. Any values enclosed in curly brackets are values to substitute from the given array (products in this case). If there are no values enclosed in curly brackets, whichever text will be populated on the list. This applies to anything besides HTML lists, for example, this can also be used to populate an HTML table rows:
-
+```
 <table>
         <tr>
             <th>Client</th>
@@ -157,15 +164,19 @@ dataset="products" specifies the array key from the $data. Any values enclosed i
              </tr>
         =%>
     </table>
+```
 
 # Adding PHP Code
 PHP code can be added as below (All values in curcly brackets will be substituted from the given $data):
 
+```
 <!--php-code
         return ('{clients.total}' > 0) ? '<h2>List of Clients {clients.total}</h2>' : '<h2>No Records!</h2>';
     endcode-->
-    
+```
+
 Additionally, you can also add PHP code inside a <%=list dataset="yourarray" =%> to add logic.
+```
 <table>
         <tr>
             <th>Client</th>
@@ -184,3 +195,4 @@ Additionally, you can also add PHP code inside a <%=list dataset="yourarray" =%>
             endcode-->
         =%>
     </table>
+ ```
