@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--php-code
+        return ('{clients.total}' > 0) ? '<h2>List of Clients {clients.total}</h2>' : '<h2>No Records!</h2>';
+    endcode-->
+
+    <table>
+        <tr>
+            <th>Client</th>
+            <th>Name</th>
+            <th>Balance</th>
+        </tr>
+        <%=list dataset="clients_test"
+            <tr class="class" id="1234">
+                <td align="left">{client.id}</td>
+                <td>{client.name}</td>
+                <td>R{client.balance}</td>
+            </tr>
+        =%>
+    </table>
+    <h2>List of Clients with Balances > 0</h2>
+    <table>
+        <tr>
+            <th>Client</th>
+            <th>Name</th>
+            <th>Balance</th>
+        </tr>
+        <%=list dataset="clients"
+             <!--php-code
+            return ({client.balance} > 0) 
+                ? '<tr class="class" id="1234">
+                    <td align="left">{client.id}</td>
+                    <td>{client.name}</td>
+                    <td>R{client.balance}</td>
+                    </tr>' 
+                : '';
+            endcode-->
+        =%>
+    </table>
+    <h2>List {users.list_title}</h2>
+    <ol>
+        <%=list dataset="users"
+        <li class="class class">{users.name} {users.desc}</li>
+        =%>
+    </ol>
+    <h2>List {products.list_title}</h2>
+    <ul>
+        <%=list dataset="products"
+        <li>{products.name} {products.desc}</li>
+        =%>
+    </ul>
+</body>
+</html>
