@@ -1,6 +1,12 @@
 # HTMLParser
 
-This package parsers substituted data on an HTML string with PHP Code
+This package can process HTML to replace it with parameter values.
+
+It can take a string with HTML tags and processes it by finding marks with a specific format that identifies the places in the string that it will replace with values taken from an array of parameters.
+
+The package can also support unique tags that identify literal PHP code that will not be changed while processing the HTML tags.
+
+The package returns the HTML string after replacing the unique tags as the result of the processing task.
 
 # Usage
 ```
