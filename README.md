@@ -22,6 +22,9 @@ if (App\Custom\Error::IsAnError ($htmlstring))
     // $htmlstring->GetError(); // gets error message
     // $htmlstring->GetCode(); // gets error code
 }
+
+echo $htmlstring;
+
 ```
 
 # Parameters Explanined
@@ -29,7 +32,6 @@ $htmlstring the actual html string
 ```
 <!DOCTYPE html>
 <html>
-
 <head>
     <style>
         table {
@@ -50,13 +52,11 @@ $htmlstring the actual html string
         }
     </style>
 </head>
-
 <body>
 
     <!--php-code
         return ('{clients.total}' > 0) ? '<h2>List of Clients {clients.total}</h2>' : '<h2>No Records!</h2>';
     endcode-->
-
 
     <table>
         <tr>
