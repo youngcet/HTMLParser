@@ -2,8 +2,8 @@
 
 	namespace App\Custom;
 
-	require ('ErrorDescriptions.php');
-    require ('Error.php');
+	require_once ('ErrorDescriptions.php');
+    require_once ('Error.php');
 
 	/**
 	 * Substitutes data on a given string
@@ -17,7 +17,7 @@
 	 * @author     Cedric Maenetja <cedricm@permanentlink.co.za>
 	 * @copyright  2022 Permanent Link CO
 	 * @license    Permanent Link CO
-	 * @version    Release: 1.0
+	 * @version    Release: 1.1
 	 */ 
 
 	class HTMLParser
@@ -96,9 +96,9 @@
 						
 					$string = str_replace ($code, $substtext, $string);
 				}
-				
-				return $string;
 			}
+
+			return $string;
 		}
 
 
