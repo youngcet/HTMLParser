@@ -202,3 +202,5 @@ Additionally, you can also add PHP code inside a <%=list dataset="yourarray" =%>
     =%>
 </table>
  ```
+ 
+ Full documentation on the wiki: https://github.com/youngcet/HTMLParser/wiki
