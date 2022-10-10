@@ -27,7 +27,7 @@ echo $htmlstring;
 
 ```
 
-# Parameters Explanined
+# Parameters Explained
 $htmlstring the actual html string
 ```
 <!DOCTYPE html>
