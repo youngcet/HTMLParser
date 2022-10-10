@@ -12,9 +12,7 @@ The package returns the HTML string after replacing the unique tags as the resul
 ```
 require ('HTMLParser/HTMLParser.php');
 
-$htmlstring = file_get_contents ('index.html'); // get the html string
-
-$htmlparser = new App\Custom\HTMLParser ($htmlstring, $data);
+$htmlparser = new App\Custom\HTMLParser (file_get_contents ('index.html'), $data);
 $htmlstring = $htmlparser->GetSubstitutedString(); // get the parsed html string
 
 // check for errors
