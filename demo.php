@@ -1,6 +1,6 @@
 <?php
 
-    require ('HTMLParser/HTMLParser.php');
+    require ('HTMLParser.php');
 
     $data = array 
         (
