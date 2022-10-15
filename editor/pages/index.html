@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<title>Custom PHP HTML Parser - Compiler</title>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel=stylesheet href="codemirror/doc/docs.css">
+
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="codemirror/addon/hint/show-hint.css">
+    <script src="codemirror/lib/codemirror.js"></script>
+    <script src="codemirror/addon/hint/show-hint.js"></script>
+    <script src="codemirror/addon/hint/javascript-hint.js"></script>
+    <script src="codemirror/mode/javascript/javascript.js"></script>
+    <script src="codemirror/mode/markdown/markdown.js"></script>
+    <script src="codemirror/addon/fold/xml-fold.js"></script>
+    <script src="codemirror/addon/hint/xml-hint.js"></script>
+    <script src="codemirror/addon/hint/html-hint.js"></script>
+    <script src="codemirror/addon/edit/matchtags.js"></script>
+    <script src="codemirror/addon/selection/active-line.js"></script>
+    <script src="codemirror/mode/xml/xml.js"></script>
+    <script src="codemirror/mode/css/css.js"></script>
+    <script src="codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="codemirror/mode/clike/clike.js"></script>
+    <script src="codemirror/mode/php/php.js"></script>
+
+    <style>
+        body {
+            font-family: Roboto;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .column {
+            float: left !important;
+            width: 50% !important;
+            height: 600px !important;
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+        }
+
+        .row:after {
+            content: "" !important;
+            display: table !important;
+            clear: both !important;
+        }
+
+        .button {
+            border: none;
+            color: black;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 2%;
+            background-color: white;
+            border: 0.5px solid #d2d2d2;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        ul {
+            display: inline-block;
+            width: 100%;
+            border-bottom: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            list-style-type: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .tab {
+            float: left;
+            height: 44px;
+            margin: 0 8px -1px 0;
+            border: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+        }
+
+        .tab,
+        .tab a {
+            transition: all .25s;
+        }
+
+        .tab a {
+            display: inline-block;
+        }
+
+        .tab a:first-child {
+            padding: 12px 2px 12px 16px;
+            white-space: nowrap;
+        }
+
+        .tab.tabClosed,
+        .tab.tabClosed a:first-child {
+            margin-right: 0;
+            border-width: 0;
+        }
+
+        .tab.tabClosed {
+            width: 0 !important;
+            /* use important because we need to set the width of tabs in javascript in order to be able to animate them to 0 */
+        }
+
+        .tab.tabClosed a {
+            opacity: 0;
+        }
+
+        .tab:hover {
+            background: #fff;
+        }
+
+        .tabSelected {
+            height: 45px;
+            border-bottom: none;
+            background: #fff;
+        }
+
+        .closeTab {
+            width: 16px;
+            height: 16px;
+            margin: 0 14px 0 12px;
+            padding: 3px;
+            border-radius: 16px;
+            line-height: 16px;
+            text-align: center;
+        }
+
+        .closeTab:hover {
+            background: #DAE0E7;
+        }
+
+        @media screen and (max-width: 600px) {
+            .column {
+                width: 100%;
+            }
+        }
+
+        .CodeMirror {
+            height: 100%;
+        }
+
+        .loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  margin: 20% 50% 0 40%;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+nav {
+    justify-content: space-between;
+}
+
+nav, .menu_item {
+    float: left;
+    margin-left: 20px;
+}
+    </style>
+</head>
+
+<body onload="openTab('html'); compileCode();">
+    <nav>
+        <a href="#" class="menu_item" style="text-decoration: none;color:#000"><h2>{app.title}</h2></a>
+        <a href="https://github.com/youngcet/HTMLParser/wiki" class="menu_item" style="margin-left: 30px;margin-top:20px;font-weight:bold" target="_blank">Documentation</a>
+    </nav>
+    
+    <ul>
+        <li class="tab tabSelected" id="html-li"><a href="javascript:openTab('html')">HTML &nbsp;&nbsp;</a></i>
+        </li>
+        <li class="tab selected" id="php-li"><a href="javascript:openTab('php')">PHP &nbsp;&nbsp;</a></li>
+        <li class="tab selected"><a href="javascript:run()">Run</a><i class="fa fa-play-circle closeTab"
+                style="color: green;"></i></li>
+    </ul>
+    <div class="row">
+        <div class="column">
+            <form id="compile" method="post" action="">
+                <div class="tabs" style="background-color:#f9f9f9;border: 0.5px solid #d2d2d2;" id="html">
+                    <textarea id="htmlcode" name="hcode">{html.sample}</textarea>
+                </div>
+
+                <div class="tabs" style="background-color:#000;border: 0.5px solid #d2d2d2;" id="php">
+                    <textarea id="phpcode" name="pcode" style="height: inherit;" onchange="updateTextArea(this.id)">{php.sample}</textarea>
+                </div>
+            </form>
+
+        </div>
+        <div class="column" style="background-color:#fff;border: 0.5px solid #d2d2d2;" id="outputdiv">
+            <div class="loader" id="loader" style="display: none;"></div>
+            <div id="error" style="color: red;display: none;"></div>
+            <iframe id="output" style="width: 100%;height:100%;"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function openTab(tab) {
+            var i;
+            var x = document.getElementsByClassName("tabs");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+                //x[i].classList.remove('tabSelected');
+                document.getElementById(x[i].id + '-li').classList.remove('tabSelected');
+                // document.getElementById(x[i].id).classList.add('selected');
+            }
+
+            document.getElementById(tab + '-li').classList.add('tabSelected');
+            document.getElementById(tab).style.display = "block";
+        }
+    </script>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("htmlcode"), {
+            lineNumbers: true,
+            extraKeys: {
+                "Ctrl-Space": "autocomplete"
+            },
+            matchTags: {
+                bothTags: true
+            },
+            mode: "text/html",
+            styleActiveLine: true,
+        });
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("phpcode"), {
+            lineNumbers: true,
+            extraKeys: {
+                "Ctrl-Space": "autocomplete"
+            },
+            mode: "application/x-httpd-php",
+            indentUnit: 4,
+            indentWithTabs: true,
+            styleActiveLine: true,
+        });
+
+        if (typeof Promise !== "undefined") {
+            var comp = [
+                ["here", "hither"],
+                ["asynchronous", "nonsynchronous"],
+                ["completion", "achievement", "conclusion", "culmination", "expirations"],
+                ["hinting", "advise", "broach", "imply"],
+                ["function", "action"],
+                ["provide", "add", "bring", "give"],
+                ["synonyms", "equivalents"],
+                ["words", "token"],
+                ["each", "every"],
+            ]
+
+            function synonyms(cm, option) {
+                return new Promise(function (accept) {
+                    setTimeout(function () {
+                        var cursor = cm.getCursor(),
+                            line = cm.getLine(cursor.line)
+                        var start = cursor.ch,
+                            end = cursor.ch
+                        while (start && /\w/.test(line.charAt(start - 1))) --start
+                        while (end < line.length && /\w/.test(line.charAt(end))) ++end
+                        var word = line.slice(start, end).toLowerCase()
+                        for (var i = 0; i < comp.length; i++)
+                            if (comp[i].indexOf(word) != -1)
+                                return accept({
+                                    list: comp[i],
+                                    from: CodeMirror.Pos(cursor.line, start),
+                                    to: CodeMirror.Pos(cursor.line, end)
+                                })
+                        return accept(null)
+                    }, 100)
+                })
+            }
+        }
+    </script>
+    <script>
+        function run() {
+            $( "#compile" ).submit();
+            // $.ajax({
+            //     type: 'POST',
+            //     url: 'run.php',
+            //     data: JSON.stringify({
+            //         htmlcode: btoa($('#htmlcode').val()),
+            //         phpcode: btoa($('#phpcode').val())
+            //     }),
+            //     success: function (data) {
+            //         $('#output').attr('src', data.uri);
+            //         $('#loader').css('display', 'none');
+            //         $('#outputdiv').attr('style', 'overflow:hidden !important');
+            //     },
+            //     error: function (err) {
+            //         // if (err.hasOwnProperty('responseJSON')){
+            //         //     alert (err.responseJSON.error);
+            //         // }
+
+            //         if (err.hasOwnProperty('responseText')){
+            //             $('#error').css('display', 'block');
+            //             $('#error').text(err.responseText);
+            //         }
+                    
+            //         $('#loader').css('display', 'none');
+            //         $('#output').css('display', 'none');
+            //         console.log(err);
+            //     },
+            //     contentType: "application/json",
+            //     dataType: 'json'
+            // });
+        }
+    </script>
+    <script>
+        function compileCode(){
+            {ajax.run}
+        }
+    </script>
+</body>
+
+</html>

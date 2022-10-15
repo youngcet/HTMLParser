@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <style>
+        body {
+            font-family: Roboto;
+        }
+
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -18,15 +23,35 @@
         tr:nth-child(even) {
             background-color: #dddddd;
         }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            float: left;
+            margin-left: 10px;
+            margin-bottom: 20px;
+            width: 40%;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            padding: 2px 16px;
+        }
     </style>
 </head>
-
 <body>
 
+    <h2>Welcome {user.name}</h2>
+
+    <!-- checks if '{clients.total}' is > 0 from $data['{clients.total}'] in PHP code tab -->
     <!--php-code
         return ('{clients.total}' > 0) ? '<h2>List of Clients {clients.total}</h2>' : '<h2>No Records!</h2>';
     endcode-->
 
+    <!-- populates products list from $data['clients_test'] in PHP code tab -->
     <table>
         <tr>
             <th>Client</th>
@@ -41,7 +66,9 @@
             </tr>
         =%>
     </table>
+    
     <h2>List of Clients with Balances > 0</h2>
+    <!-- populates clients list from $data['clients'] and shows the record if balance is > 0 in PHP code tab -->
     <table>
         <tr>
             <th>Client</th>
@@ -60,17 +87,27 @@
             endcode-->
         =%>
     </table>
-    <h2>List {users.list_title}</h2>
-    <ol>
-        <%=list dataset="users"
-        <li class="class class">{users.name} {users.desc}</li>
-        =%>
-    </ol>
-    <h2>List {products.list_title}</h2>
-    <ul>
-        <%=list dataset="products"
-        <li>{products.name} {products.desc}</li>
-        =%>
-    </ul>
+
+    <div style="margin-top: 10px;">
+        <h2>Products</h2>
+        <!-- populates products list from $data['products'] in PHP code tab -->
+        <ul>
+            <%=list dataset="products"
+            <li>{products.name} {products.desc}</li>
+            =%>
+        </ul>
+    </div>
+
+    <h2>Users</h2>
+
+    <!-- populates users list from $data['users'] in PHP code tab -->
+    <%=list dataset="users"
+        <div class="card">
+            <div class="container">
+            <h4><b>{users.name}</b></h4> 
+            <p>{users.role}</p> 
+            </div>
+        </div>
+    =%>
 </body>
 </html>
