@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <style>
+        body {
+            font-family: Roboto;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            float: left;
+            margin-left: 10px;
+            margin-bottom: 20px;
+            width: 40%;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            padding: 2px 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Welcome Yung Cet</h2>
+
+    <!-- checks if '7' is > 0 from $data['7'] in PHP code tab -->
+    <h2>List of Clients 7</h2>
+
+    <!-- populates products list from $data['clients_test'] in PHP code tab -->
+    <table>
+        <tr>
+            <th>Client</th>
+            <th>Name</th>
+            <th>Balance</th>
+        </tr>
+        <tr class="class" id="1234">
+                <td align="left">12341</td>
+                <td>Yung Cet 1</td>
+                <td>R10</td>
+            </tr><tr class="class" id="1234">
+                <td align="left">12342</td>
+                <td>Yung Cet 2</td>
+                <td>R55</td>
+            </tr><tr class="class" id="1234">
+                <td align="left">12343</td>
+                <td>Yung Cet 3</td>
+                <td>R-100</td>
+            </tr><tr class="class" id="1234">
+                <td align="left">12344</td>
+                <td>Yung Cet 4</td>
+                <td>R0</td>
+            </tr><tr class="class" id="1234">
+                <td align="left">12345</td>
+                <td>Yung Cet 5</td>
+                <td>R-60</td>
+            </tr><tr class="class" id="1234">
+                <td align="left">12346</td>
+                <td>Yung Cet 6</td>
+                <td>R30</td>
+            </tr><tr class="class" id="1234">
+                <td align="left">12347</td>
+                <td>Yung Cet 7</td>
+                <td>R30</td>
+            </tr>
+    </table>
+    
+    <h2>List of Clients with Balances > 0</h2>
+    <!-- populates clients list from $data['clients'] and shows the record if balance is > 0 in PHP code tab -->
+    <table>
+        <tr>
+            <th>Client</th>
+            <th>Name</th>
+            <th>Balance</th>
+        </tr>
+        <tr class="class" id="1234">
+                    <td align="left">12341</td>
+                    <td>Yung Cet 1</td>
+                    <td>R10</td>
+                    </tr><tr class="class" id="1234">
+                    <td align="left">12342</td>
+                    <td>Yung Cet 2</td>
+                    <td>R55</td>
+                    </tr><tr class="class" id="1234">
+                    <td align="left">12346</td>
+                    <td>Yung Cet 6</td>
+                    <td>R30</td>
+                    </tr><tr class="class" id="1234">
+                    <td align="left">12347</td>
+                    <td>Yung Cet 7</td>
+                    <td>R30</td>
+                    </tr>
+    </table>
+
+    <div style="margin-top: 10px;">
+        <h2>Products</h2>
+        <!-- populates products list from $data['products'] in PHP code tab -->
+        <ul>
+            <li>Product 1 description</li><li>Product 2 description</li><li>Product 3 description</li><li>Product 4 description</li>
+        </ul>
+    </div>
+
+    <h2>Users</h2>
+
+    <!-- populates users list from $data['users'] in PHP code tab -->
+    <div class="card">
+            <div class="container">
+            <h4><b>Yung Cet</b></h4> 
+            <p>Software Engineer</p> 
+            </div>
+        </div><div class="card">
+            <div class="container">
+            <h4><b>Cedric Maenetja</b></h4> 
+            <p>Managing Director</p> 
+            </div>
+        </div>
+</body>
+</html>
