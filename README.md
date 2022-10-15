@@ -203,4 +203,13 @@ Additionally, you can also add PHP code inside a <%=list dataset="yourarray" =%>
 </table>
  ```
  
+ # Using Custom PHP HTML Parser Editor
+ There is an editor included in this repo, to run it:
+ - Start your PHP server (via command line php -S localhost:8080)
+ - Navigate to http://localhost:8080/editor/ or http://localhost/HTMLParser/editor/ or http://PATH_TO_HTMLPARSER/editor/
+ - Your editor is now ready. You can edit and compile your code.
+ - Demo: https://permanentlink.co.za/HTMLParser/editor/index
+ 
+ You can and should only run this editor on a local server for security reasons.
+ 
  Full documentation on the wiki: https://github.com/youngcet/HTMLParser/wiki
