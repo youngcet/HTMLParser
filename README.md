@@ -11,6 +11,10 @@ The package returns the HTML string after replacing the unique tags as the resul
 ## Demo
 https://permanentlink.co.za/HTMLParser/editor/index
 
+## Documentation
+https://permanentlink.co.za/HTMLParser/documentation/
+
+
 # Usage
 ```
 require ('HTMLParser/HTMLParser.php');
@@ -149,6 +153,7 @@ $data => array (
 
 # Populating a list
 A list can be populated as below:
+### Populating a list using list dataset
 ```
 <ul>
     <%=list dataset="products"
@@ -156,8 +161,35 @@ A list can be populated as below:
     =%>
 </ul>
  ```
+
+### Populating a list using dataset.map()
+ ```
+<ul>
+    <%=dataset.map("products")
+    <li>{products.name} {products.desc}</li>
+    =%>
+</ul>
+ ```
+
+### Populating a list using foreach()
+ ```
+<ul>
+    <%=foreach("products")
+    <li>{products.name} {products.desc}</li>
+    =%>
+</ul>
+ ```
+
+### Populating a list using for()
+ ```
+<ul>
+    <%=for("products")
+    <li>{products.name} {products.desc}</li>
+    =%>
+</ul>
+ ```
  
-dataset="products" specifies the array key from the $data. Any values enclosed in curly brackets are values to substitute from the given array (products in this case). If there are no values enclosed in curly brackets, whichever text will be populated on the list. This applies to anything besides HTML lists, for example, this can also be used to populate an HTML table rows:
+"products" specifies the array key from the $data. Any values enclosed in curly brackets are values to substitute from the given array (products in this case). If there are no values enclosed in curly brackets, whichever text will be populated on the list. This applies to anything besides HTML lists, for example, this can also be used to populate an HTML table rows or **divs**:
 ```
 <table>
     <tr>
@@ -173,6 +205,12 @@ dataset="products" specifies the array key from the $data. Any values enclosed i
          </tr>
     =%>
 </table>
+
+<%=list dataset="clients"
+    <div class="cards">
+        <p>{client.id}: {client.name}: {client.balance}</p>
+    </div>
+=%>
 ```
 
 # Adding PHP Code
@@ -213,6 +251,6 @@ Additionally, you can also add PHP code inside a <%=list dataset="yourarray" =%>
  - Your editor is now ready. You can edit and compile your code.
  - Demo: https://permanentlink.co.za/HTMLParser/editor/index
  
- You can and should only run this editor on a local server for security reasons.
+ **Note:** You can only compile the code in the editor on a local PHP server.
  
  Full documentation on the wiki: https://github.com/youngcet/HTMLParser/wiki

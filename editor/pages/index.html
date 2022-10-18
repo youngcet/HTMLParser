@@ -185,14 +185,14 @@ nav, .menu_item {
 <body onload="openTab('html'); compileCode();">
     <nav>
         <a href="#" class="menu_item" style="text-decoration: none;color:#000"><h2>{app.title}</h2></a>
-        <a href="https://github.com/youngcet/HTMLParser/wiki" class="menu_item" style="margin-left: 30px;margin-top:20px;font-weight:bold" target="_blank">Documentation</a>
+        <a href="../demo.php" class="menu_item" style="margin-left: 30px;margin-top:20px;font-weight:bold" target="_blank">Documentation</a>
     </nav>
     
     <ul>
         <li class="tab tabSelected" id="html-li"><a href="javascript:openTab('html')">HTML &nbsp;&nbsp;</a></i>
         </li>
         <li class="tab selected" id="php-li"><a href="javascript:openTab('php')">PHP &nbsp;&nbsp;</a></li>
-        <li class="tab selected"><a href="javascript:run()">Run</a><i class="fa fa-play-circle closeTab"
+        <li class="tab selected" title="Click to Compile Code"><a href="javascript:run()">Run</a><i class="fa fa-play-circle closeTab"
                 style="color: green;"></i></li>
     </ul>
     <div class="row">

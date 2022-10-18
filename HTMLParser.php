@@ -17,7 +17,7 @@
 	 * @author     Cedric Maenetja <cedricm@permanentlink.co.za>
 	 * @copyright  2022 Permanent Link CO
 	 * @license    Permanent Link CO
-	 * @version    Release: 1.1
+	 * @version    Release: 1.2
 	 */ 
 
 	class HTMLParser
@@ -104,7 +104,7 @@
 
 
 		/**
-		 * Populates a list
+		 * Populates lists
 		 *
 		 * @param String  	$string The string to do substitutions on
 		 * @param array 	$data 	The dataset to substitute on the string
@@ -117,46 +117,21 @@
 		{
 			$startpattern = $this->_execcodestartpattern;
 
-			if (preg_match_all ('/<%=list dataset="([^"]+?)"/', $string, $listsInString))
-			{
-				for ($i = 0; $i < count ($listsInString[0]); $i++)
-				{
-					$id = $listsInString[1][0];
-					$list = $listsInString[0][0];
+			$string = $this->map ('/<%=list dataset="([^"]+?)"/', $string, $data);
+			if (Error::IsAnError ($string)) return $string;
 
-					if (preg_match_all ("/$list/", $string, $totalListsById))
-					{
-						if (count ($totalListsById[0]) > 1) return new Error (-1, sprintf ('%s\Error: Duplicate list id [%s]', $this->_classname, $id));
-					}
-					
-					for ($h = 0; $h < count ($listsInString[0]); $h++)
-					{
-						$htmlList = $listsInString[0][$h];
-						$listContent = '';
-						
-						if (preg_match ("/$htmlList(.|\n)*?=%>/", $string, $listSection))
-						{	
-							if (! isset ($data[$listsInString[1][$h]])) 
-							{
-								return new Error (-1, sprintf ('%s\Error: Array [%s] not defined', $this->_classname, $listsInString[1][$h]));
-							}
+			$string = $this->map ('/<%=foreach\("([^"]+?)"\)/', $string, $data);
+			if (Error::IsAnError ($string)) return $string;
 
-							foreach ($this->Iterator ($data[$listsInString[1][$h]]) as $dataArray)
-							{
-								$textToSubstitute = trim ($this->SubstStringData ($listSection[0], array ($htmlList => '', '=%>' => '')));
+			$string = $this->map ('/<%=for\("([^"]+?)"\)/', $string, $data);
+			if (Error::IsAnError ($string)) return $string;
 
-								if (preg_match ("/$startpattern/", $textToSubstitute)) $textToSubstitute = $this->CompileExecutableCode ($textToSubstitute, $dataArray);
-								if (! empty ($textToSubstitute)) $listContent .= $this->SubstStringData ($textToSubstitute, $dataArray);
-							}
-
-							$string = str_replace ($listSection[0], $listContent, $string);
-						}
-					}
-				}
-			}
+			$string = $this->map ('/<%=dataset.map\("([^"]+?)"\)/', $string, $data);
 
 			return $string;
 		}
+
+
 
 		/**
 		 * Substitutes strings
@@ -195,6 +170,67 @@
 			{
 				yield $key => $value;
 			}
+		}
+
+
+
+		private function get ($array, $searchkey)
+        {
+            return (isset ($array[$searchkey])) ? $array[$searchkey] : "$searchkey not found!";
+        }
+
+
+
+		/**
+		 * Populates a list
+		 *
+		 * @param String  	$regex The regex
+		 * @param String  	$string The string to do substitutions on
+		 * @param array 	$data 	The dataset to substitute on the string
+		 * 
+		 * @author Cedric Maenetja <cedricm@permanentlink.co.za>
+		 * @return String Substituted string or error
+		 */ 
+
+		private function map ($regex, $string, $data)
+		{
+			$startpattern = $this->_execcodestartpattern;
+
+			if (preg_match_all ($regex, $string, $listsInString))
+			{
+				for ($i = 0; $i < count ($listsInString[0]); $i++)
+				{
+					$id = $listsInString[1][0];
+					$list = $listsInString[0][0];
+					
+					for ($h = 0; $h < count ($listsInString[0]); $h++)
+					{
+						$htmlList = $this->SubstStringData ($listsInString[0][$h], array ('(' => '\(', ')' => '\)'));
+						$listContent = '';
+						
+						if (preg_match ("/$htmlList(.|\n)*?=%>/", $string, $listSection))
+						{	
+							if (! isset ($data[$listsInString[1][$h]])) 
+							{
+								return new Error (-1, sprintf ('%s\Error: Array [%s] not defined', $this->_classname, $listsInString[1][$h]));
+							}
+
+							foreach ($this->Iterator ($data[$listsInString[1][$h]]) as $dataArray)
+							{
+								$htmlList = $this->SubstStringData ($htmlList, array ('\(' => '(', '\)' => ')'));
+								$textToSubstitute = trim ($this->SubstStringData ($listSection[0], array ($htmlList => '', '=%>' => '')));
+
+								if (preg_match ("/$startpattern/", $textToSubstitute)) $textToSubstitute = $this->CompileExecutableCode ($textToSubstitute, $dataArray);
+								if (! empty ($textToSubstitute)) $listContent .= $this->SubstStringData ($textToSubstitute, $dataArray);
+							}
+							
+							$string = str_replace ($listSection[0], $listContent, $string);
+						}
+					}
+				}
+			}
+
+			return $string;			
 		}
 	}
 
