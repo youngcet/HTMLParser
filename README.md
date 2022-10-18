@@ -8,6 +8,9 @@ The package can also support unique tags that identify literal PHP code that wil
 
 The package returns the HTML string after replacing the unique tags as the result of the processing task.
 
+## Demo
+https://permanentlink.co.za/HTMLParser/editor/index
+
 # Usage
 ```
 require ('HTMLParser/HTMLParser.php');
