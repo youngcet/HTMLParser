@@ -1,7 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="editor/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="editor/codemirror/addon/hint/show-hint.css">
+    <script src="editor/codemirror/lib/codemirror.js"></script>
+    <script src="editor/codemirror/addon/hint/show-hint.js"></script>
+    <script src="editor/codemirror/addon/hint/javascript-hint.js"></script>
+    <script src="editor/codemirror/mode/javascript/javascript.js"></script>
+    <script src="editor/codemirror/mode/markdown/markdown.js"></script>
+    <script src="editor/codemirror/addon/fold/xml-fold.js"></script>
+    <script src="editor/codemirror/addon/hint/xml-hint.js"></script>
+    <script src="editor/codemirror/addon/hint/html-hint.js"></script>
+    <script src="editor/codemirror/addon/edit/matchtags.js"></script>
+    <script src="editor/codemirror/addon/selection/active-line.js"></script>
+    <script src="editor/codemirror/mode/xml/xml.js"></script>
+    <script src="editor/codemirror/mode/css/css.js"></script>
+    <script src="editor/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="editor/codemirror/mode/clike/clike.js"></script>
+    <script src="editor/codemirror/mode/php/php.js"></script>
+
     <style>
+        body {
+            font-family: Roboto;
+        }
+
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -18,22 +41,54 @@
         tr:nth-child(even) {
             background-color: #dddddd;
         }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            float: left;
+            margin-left: 10px;
+            margin-bottom: 20px;
+            width: 40%;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            padding: 2px 16px;
+        }
     </style>
 </head>
-
 <body>
 
+    <h2 id="top">Welcome to {app.title}</h2>
+    <nav>
+        <a href="?#list">Populating a list</a> |
+        <a href="?#listwithphp">List with PHP Code</a> |
+        <a href="#listdataset">Populate list using 'list dataset'</a> |
+        <a href="#dataset.map">Populate list using dataset.map()</a> |
+        <a href="#foreach">Populate list using foreach()</a> |
+        <a href="#for">Populate list using for()</a> 
+      </nav>
+      <br/>
+      Check out full code in Editor: <a href="editor/" target="_blank">Custom PHP HTML Parser Editor</a>
+      <br/><br/>
+    <!-- populates clients list from $data['clients'] in PHP code -->
+    <textarea id="code1" class="code">
+{code1}</textarea><br/><br/>
+<h3 id="list">Output:</h3>
+<!-- checks if '{clients.total}' is > 0 from $data['{clients.total}'] in PHP code tab -->
     <!--php-code
         return ('{clients.total}' > 0) ? '<h2>List of Clients {clients.total}</h2>' : '<h2>No Records!</h2>';
     endcode-->
-
     <table>
         <tr>
             <th>Client</th>
             <th>Name</th>
             <th>Balance</th>
         </tr>
-        <%=list dataset="clients_test"
+        <%=list dataset="clients"
             <tr class="class" id="1234">
                 <td align="left">{client.id}</td>
                 <td>{client.name}</td>
@@ -41,7 +96,12 @@
             </tr>
         =%>
     </table>
-    <h2>List of Clients with Balances > 0</h2>
+    
+    <h2 id="listwithphp">List of Clients with Balances > 0 with PHP code <small><a href="#top">#Back To Top</a></small></h2>
+    <!-- populates clients list from $data['clients'] and shows the record if balance is > 0 in PHP code tab -->
+    <textarea id="code2" class="code"><!-- populates clients list from $data['clients'] in PHP code -->
+        {code2}</textarea><br/><br/>
+        <h3>Output:</h3>
     <table>
         <tr>
             <th>Client</th>
@@ -60,17 +120,175 @@
             endcode-->
         =%>
     </table>
-    <h2>List {users.list_title}</h2>
-    <ol>
-        <%=list dataset="users"
-        <li class="class class">{users.name} {users.desc}</li>
+
+    <div style="margin-top: 10px;">
+        <h2 id="listdataset">Populate products using 'list dataset' <small><a href="#top">#Back To Top</a></small></h2>
+        <!-- populates products list from $data['products'] in PHP code -->
+        <textarea id="code3" class="code"><!-- populates products list from $data['products'] in PHP code -->
+            {code3}</textarea><br/><br/>
+            <h3>Output:</h3>
+        <ul>
+            <%=list dataset="products"
+            <li>{products.name} {products.desc}</li>
+            =%>
+        </ul>
+    </div>
+    <div>
+        <h2 id="dataset.map">Populate users using dataset.map() <small><a href="#top">#Back To Top</a></small></h2>
+
+        <!-- populates users list from $data['users'] in PHP code tab -->
+        <textarea id="code4" class="code"><!-- populates users list from $data['users'] in PHP code -->
+            {code4}</textarea><br/><br/>
+            <h3>Output:</h3>
+        <%=dataset.map("users")
+            <div class="card">
+                <div class="container">
+                <h4><b>{u.name}</b></h4> 
+                <p>{u.role}</p> 
+                </div>
+            </div>
         =%>
-    </ol>
-    <h2>List {products.list_title}</h2>
-    <ul>
-        <%=list dataset="products"
-        <li>{products.name} {products.desc}</li>
+    </div>
+    <div style="margin-top: 10%;">
+        <h2 id="foreach">Populate users using foreach() <small><a href="#top">#Back To Top</a></small></h2>
+
+        <!-- populates users list from $data['users'] in PHP code -->
+        <textarea id="code5" class="code"><!-- populates users list from $data['users'] in PHP code -->
+            {code5}</textarea><br/><br/>
+            <h3>Output:</h3>
+        <%=foreach("users")
+            <div class="card">
+                <div class="container">
+                <h4><b>{u.name}</b></h4> 
+                <p>{u.role}</p> 
+                </div>
+            </div>
         =%>
-    </ul>
+    </div>
+    <div style="margin-top: 10%;">
+        <h2 id="for">Populate users using for() <small><a href="#top">#Back To Top</a></small></h2>
+
+        <!-- populates users list from $data['users'] in PHP code tab -->
+        <textarea id="code6" class="code"><!-- populates users list from $data['users'] in PHP code -->
+            {code6}</textarea><br/><br/>
+            <h3>Output:</h3>
+        <%=for("users")
+            <div class="card">
+                <div class="container">
+                <h4><b>{u.name}</b></h4> 
+                <p>{u.role}</p> 
+                </div>
+            </div>
+        =%>
+    </div>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("code1"), {
+            lineNumbers: true,
+            extraKeys: {
+                "Ctrl-Space": "autocomplete"
+            },
+            matchTags: {
+                bothTags: true
+            },
+            mode: "text/html",
+            styleActiveLine: true,
+        });
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code2"), {
+            lineNumbers: true,
+            extraKeys: {
+                "Ctrl-Space": "autocomplete"
+            },
+            matchTags: {
+                bothTags: true
+            },
+            mode: "text/html",
+            styleActiveLine: true,
+        });
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code3"), {
+            lineNumbers: true,
+            extraKeys: {
+                "Ctrl-Space": "autocomplete"
+            },
+            matchTags: {
+                bothTags: true
+            },
+            mode: "text/html",
+            styleActiveLine: true,
+        });
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code4"), {
+            lineNumbers: true,
+            extraKeys: {
+                "Ctrl-Space": "autocomplete"
+            },
+            matchTags: {
+                bothTags: true
+            },
+            mode: "text/html",
+            styleActiveLine: true,
+        });
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code5"), {
+            lineNumbers: true,
+            extraKeys: {
+                "Ctrl-Space": "autocomplete"
+            },
+            matchTags: {
+                bothTags: true
+            },
+            mode: "text/html",
+            styleActiveLine: true,
+        });
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code6"), {
+            lineNumbers: true,
+            extraKeys: {
+                "Ctrl-Space": "autocomplete"
+            },
+            matchTags: {
+                bothTags: true
+            },
+            mode: "text/html",
+            styleActiveLine: true,
+        });
+
+        if (typeof Promise !== "undefined") {
+            var comp = [
+                ["here", "hither"],
+                ["asynchronous", "nonsynchronous"],
+                ["completion", "achievement", "conclusion", "culmination", "expirations"],
+                ["hinting", "advise", "broach", "imply"],
+                ["function", "action"],
+                ["provide", "add", "bring", "give"],
+                ["synonyms", "equivalents"],
+                ["words", "token"],
+                ["each", "every"],
+            ]
+
+            function synonyms(cm, option) {
+                return new Promise(function (accept) {
+                    setTimeout(function () {
+                        var cursor = cm.getCursor(),
+                            line = cm.getLine(cursor.line)
+                        var start = cursor.ch,
+                            end = cursor.ch
+                        while (start && /\w/.test(line.charAt(start - 1))) --start
+                        while (end < line.length && /\w/.test(line.charAt(end))) ++end
+                        var word = line.slice(start, end).toLowerCase()
+                        for (var i = 0; i < comp.length; i++)
+                            if (comp[i].indexOf(word) != -1)
+                                return accept({
+                                    list: comp[i],
+                                    from: CodeMirror.Pos(cursor.line, start),
+                                    to: CodeMirror.Pos(cursor.line, end)
+                                })
+                        return accept(null)
+                    }, 100)
+                })
+            }
+        }
+    </script>
 </body>
 </html>

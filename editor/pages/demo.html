@@ -58,7 +58,7 @@
             <th>Name</th>
             <th>Balance</th>
         </tr>
-        <%=list dataset="clients_test"
+        <%=list dataset="clients"
             <tr class="class" id="1234">
                 <td align="left">{client.id}</td>
                 <td>{client.name}</td>
@@ -98,16 +98,60 @@
         </ul>
     </div>
 
-    <h2>Users</h2>
+    <div style=""></div>
+        <h2>Populate users using 'list dataset'</h2>
 
-    <!-- populates users list from $data['users'] in PHP code tab -->
-    <%=list dataset="users"
-        <div class="card">
-            <div class="container">
-            <h4><b>{users.name}</b></h4> 
-            <p>{users.role}</p> 
+        <!-- populates users list from $data['users'] in PHP code tab -->
+        <%=list dataset="users"
+            <div class="card">
+                <div class="container">
+                <h4><b>{users.name}</b></h4> 
+                <p>{users.role}</p> 
+                </div>
             </div>
-        </div>
-    =%>
+        =%>
+    </div>
+
+    <div style="margin-top: 20%;">
+        <h2 >Populate users using dataset.map()</h2>
+
+        <!-- populates users list from $data['users'] in PHP code tab -->
+        <%=dataset.map("users")
+            <div class="card">
+                <div class="container">
+                <h4><b>{users.name}</b></h4> 
+                <p>{users.role}</p> 
+                </div>
+            </div>
+        =%>
+    </div>
+
+    <div style="margin-top: 20%;">
+        <h2 >Populate users using foreach()</h2>
+
+        <!-- populates users list from $data['users'] in PHP code tab -->
+        <%=foreach("users")
+            <div class="card">
+                <div class="container">
+                <h4><b>{users.name}</b></h4> 
+                <p>{users.role}</p> 
+                </div>
+            </div>
+        =%>
+    </div>
+
+    <div style="margin-top: 20%;">
+        <h2 >Populate users using for()</h2>
+
+        <!-- populates users list from $data['users'] in PHP code tab -->
+        <%=for("users")
+            <div class="card">
+                <div class="container">
+                <h4><b>{users.name}</b></h4> 
+                <p>{users.role}</p> 
+                </div>
+            </div>
+        =%>
+    </div>
 </body>
 </html>
