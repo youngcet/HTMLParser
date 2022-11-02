@@ -27,7 +27,7 @@ if (App\Custom\Error::IsAnError ($htmlstring))
 {
     // handle error
     // $htmlstring->GetError(); // gets error message
-    // $htmlstring->GetCode(); // gets error code
+    // $htmlstring->GetErrorCode(); // gets error code
 }
 
 echo $htmlstring;
